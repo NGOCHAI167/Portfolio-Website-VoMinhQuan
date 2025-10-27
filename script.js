@@ -40,3 +40,48 @@ function typeWord() {
 
 // Bắt đầu animation
 setTimeout(typeWord, 1000); // Delay khởi động
+document.addEventListener('DOMContentLoaded', () => {
+
+    // Lấy tất cả các link trong thanh điều hướng (nav)
+    const navLinks = document.querySelectorAll('nav a');
+    
+    // Lấy tất cả các section
+    const sections = document.querySelectorAll('section');
+
+    // Lặp qua từng link và gán sự kiện click
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(event) {
+            // Ngăn hành vi nhảy trang mặc định của thẻ <a>
+            event.preventDefault();
+
+            // Lấy ID mục tiêu từ href (ví dụ: '#services')
+            const targetId = this.getAttribute('href');
+            
+            // --- 1. Xử lý Active Class cho Link ---
+            // Xóa class 'active' khỏi link đang active hiện tại
+            document.querySelector('nav a.active').classList.remove('active');
+            // Thêm class 'active' cho link vừa được click
+            this.classList.add('active');
+
+            // --- 2. Xử lý Hiển thị Section ---
+            // Ẩn tất cả các section
+            sections.forEach(sec => {
+                sec.style.display = 'none';
+            });
+
+            // Lấy section mục tiêu
+            const targetSection = document.querySelector(targetId);
+
+            // Hiển thị section mục tiêu
+            if (targetSection) {
+                // KIỂM TRA ĐẶC BIỆT: Section 'home' dùng 'flex',
+                // các section khác dùng 'block'
+                if (targetId === '#home') {
+                    targetSection.style.display = 'flex';
+                } else {
+                    targetSection.style.display = 'block';
+                }
+            }
+        });
+    });
+});
